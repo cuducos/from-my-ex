@@ -1,0 +1,17 @@
+name: pytest
+'on':
+  - push
+  - pull_request
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: 3.9
+      - uses: snok/install-poetry@v1
+      - name: Install dependencies
+        run: poetry install
+      - name: Run pytests
+        run: poetry run pytest

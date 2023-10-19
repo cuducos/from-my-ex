@@ -1,0 +1,31 @@
+[tool.poetry]
+name = "from_my_ex"
+version = "0.0.1"
+description = "Sending all the love from my ex to my new happy and promisucous social media life"
+authors = ["Eduardo Cuducos <4732915+cuducos@users.noreply.github.com>"]
+license = "GPL-3"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+beautifulsoup4 = "^4.12.2"
+feedparser = "^6.0.10"
+httpx = "^0.25.0"
+
+
+[tool.poetry.group.dev.dependencies]
+ipdb = "^0.13.13"
+pytest = "^7.4.2"
+pytest-black = "^0.3.12"
+pytest-isort = "^3.1.0"
+pytest-ruff = "^0.1.1"
+
+[tool.pytest.ini_options]
+addopts = "--black --isort --ruff --disable-warnings"
+
+[tool.isort]
+profile = "black"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
