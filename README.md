@@ -6,11 +6,7 @@ In other words, this app gets the new posts (except replies and reposts) from my
 
 ## Roadmap
 
-- [x] Read last posts from my ex-social media
-- [x] Parse the post in a suitable format to re-post in the new social media<br>(skip replies, replace mentions and hashtags, etc.)
-- [ ] Control which posts were already reposted and which ones have to be reposted<br>(maybe persist a single `last_reposted_at` timestamp with the original post timestamp)
-- [ ] Re-post to Mastodon
-- [ ] Re-post to Bluesky
+See [the roadmap issues](https://github.com/cuducos/from-my-ex/labels/roadmap) to follow up the MVP development.
 
 ## Getting started
 
@@ -25,8 +21,19 @@ These environment variables are required:
 
 | Name | Description | Example |
 |---|---|---|
-| `FROM_MY_EX_USERNAME` | User handle used in the ex, the blue bird one | `cuducos` (not `@cuducos`) | 
-| `FROM_MY_EX_NITTER_INSTANCE` | A [Nitter](https://nitter.net/) instance [with RSS enabled](https://github.com/zedeus/nitter/wiki/Instances) | `https://nitter.d420.de` |
+| `FROM_MY_EX_USERNAME` | User handle used in the ex, the blue bird one | `"cuducos"` (not `"@cuducos"`) |
+| `FROM_MY_EX_NITTER_INSTANCE` | A [Nitter](https://nitter.net/) instance [with RSS enabled](https://github.com/zedeus/nitter/wiki/Instances) | `"https://nitter.d420.de"` |
+
+### Optional
+
+#### To repost in [Bluesky](https://bsky.app)
+
+| Name | Description | Example | Default value |
+| `FROM_MY_EX_BSKY_AGENT` | Bluesky instance | `"https://bsky.social"` | `"https://bsky.social"` |
+| `FROM_MY_EX_BSKY_EMAIL` | Email used in Bluesky | | `"cuducos@mailinator.com"` | `None` |
+| `FROM_MY_EX_BSKY_PASSWORD` | Password used in Bluesky | As created in [App Passwords](https://bsky.app/settings/app-passwords) | `None` |
+
+Not setting `FROM_MY_EX_BSKY_EMAIL` **or** `FROM_MY_EX_BSKY_PASSWORD` disables Bluesky reposting.
 
 ## Usage
 

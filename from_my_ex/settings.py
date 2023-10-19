@@ -1,4 +1,4 @@
-from os import environ
+from os import environ, getenv
 from urllib.parse import urlparse
 
 
@@ -15,3 +15,11 @@ except KeyError as err:
 
 NITTER_FEED_URL = f"{NITTER_INSTANCE}/{EX_USERNAME}/rss"
 NITTER_DOMAIN = urlparse(NITTER_INSTANCE).netloc
+
+BSKY_AGENT = getenv("FROM_MY_EX_BSKY_AGENT", "https://bsky.social")
+BSKY_EMAIL = getenv("FROM_MY_EX_BSKY_EMAIL")
+BSKY_PASSWORD = getenv("FROM_MY_EX_BSKY_PASSWORD")
+
+CLIENTS_AVAILABLE = set(
+    key for key, value in (("bsky", BSKY_EMAIL and BSKY_PASSWORD),) if value
+)
