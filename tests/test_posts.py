@@ -1,6 +1,6 @@
 from unittest.mock import patch
 
-from from_my_ex.posts import Post
+from from_my_ex.posts import Media, Post
 
 
 def test_post_from_rss_entry_change_mentions_to_urls():
@@ -29,6 +29,7 @@ def test_post_from_rss_entry_get_image_bytes():
     entry = {"summary": summary}
     with patch("from_my_ex.posts.get") as mock:
         mock.return_value.content = b"42"
+        mock.return_value.headers = {"content-type": "image/png"}
         post = Post.from_rss_entry(entry)
         mock.assert_called_once_with("https://instan.ce/image.jpg")
-    assert post.media == (b"42",)
+    assert post.media == (Media(b"42", "image/png"),)
