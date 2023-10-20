@@ -5,6 +5,7 @@ SETTINGS = {
     "NITTER_INSTANCE": "https://instan.ce",
     "BSKY_EMAIL": "python@mailinator.com",
     "BSKY_PASSWORD": "fourty2",
+    "DATABASE_URL": ":memory:",
 }
 
 

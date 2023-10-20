@@ -9,6 +9,7 @@ class EnvironmentVariableNotFoundError(Exception):
 try:
     EX_USERNAME = environ["FROM_MY_EX_USERNAME"]
     NITTER_INSTANCE = environ["FROM_MY_EX_NITTER_INSTANCE"]
+    DATABASE_URL = environ["FROM_MY_EX_DATABASE_URL"]
 except KeyError as err:
     missing_key, *_ = err.args
     raise EnvironmentVariableNotFoundError(missing_key)
