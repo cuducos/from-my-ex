@@ -29,8 +29,9 @@ These environment variables are required:
 #### To repost in [Bluesky](https://bsky.app)
 
 | Name | Description | Example | Default value |
+|---|---|---|---|
 | `FROM_MY_EX_BSKY_AGENT` | Bluesky instance | `"https://bsky.social"` | `"https://bsky.social"` |
-| `FROM_MY_EX_BSKY_EMAIL` | Email used in Bluesky | | `"cuducos@mailinator.com"` | `None` |
+| `FROM_MY_EX_BSKY_EMAIL` | Email used in Bluesky | `"cuducos@mailinator.com"` | `None` |
 | `FROM_MY_EX_BSKY_PASSWORD` | Password used in Bluesky | As created in [App Passwords](https://bsky.app/settings/app-passwords) | `None` |
 
 Not setting `FROM_MY_EX_BSKY_EMAIL` **or** `FROM_MY_EX_BSKY_PASSWORD` disables Bluesky reposting.
