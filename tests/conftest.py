@@ -1,7 +1,14 @@
 from os import environ
 
+SETTINGS = {
+    "USERNAME": "bird",
+    "NITTER_INSTANCE": "https://instan.ce",
+    "BSKY_EMAIL": "python@mailinator.com",
+    "BSKY_PASSWORD": "fourty2",
+}
+
 
 def pytest_configure(config):
-    environ["FROM_MY_EX_USERNAME"] = "bird"
-    environ["FROM_MY_EX_NITTER_INSTANCE"] = "https://instan.ce"
+    for key, value in SETTINGS.items():
+        environ[f"FROM_MY_EX_{key}"] = value
     return config
