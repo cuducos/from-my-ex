@@ -1,6 +1,13 @@
-from from_my_ex.clients import RSS
+from sys import argv
 
-if __name__ == "__main__":
-    feed = RSS()
-    for post in feed.posts:
-        print(post.text)
+from from_my_ex.clients.rss import RSS
+from from_my_ex.db import LastRepost, db
+
+if "--create-db" in argv:
+    with db:
+        db.create_tables((LastRepost,))
+    exit()
+
+feed = RSS()
+for post in feed.posts:
+    print(post.text)

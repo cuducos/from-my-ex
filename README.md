@@ -23,6 +23,7 @@ These environment variables are required:
 |---|---|---|
 | `FROM_MY_EX_USERNAME` | User handle used in the ex, the blue bird one | `"cuducos"` (not `"@cuducos"`) |
 | `FROM_MY_EX_NITTER_INSTANCE` | A [Nitter](https://nitter.net/) instance [with RSS enabled](https://github.com/zedeus/nitter/wiki/Instances) | `"https://nitter.d420.de"` |
+| `FROM_MY_EX_DATABASE_URL` | A URI to a SQL database, with credentials if needed | `"db.sqlite3"` or `"postgres://user:pass@server/db"` |
 
 ### Optional
 
@@ -40,6 +41,7 @@ Not setting `FROM_MY_EX_BSKY_EMAIL` **or** `FROM_MY_EX_BSKY_PASSWORD` disables B
 
 ```console
 $ poetry install
+$ poetry run python -m from_my_ex --create-db
 $ poetry run python -m from_my_ex
 ```
 
