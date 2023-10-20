@@ -1,3 +1,4 @@
+from dataclasses import dataclass
 from re import compile
 from urllib.parse import urlparse
 
@@ -21,6 +22,18 @@ def back_to_ex(url):
     return parsed.geturl()
 
 
+@dataclass
+class Media:
+    content: bytes
+    mime: str
+    alt: str = ""
+
+    @classmethod
+    def from_img_tag(cls, img):
+        resp = get(img["src"])
+        return cls(resp.content, resp.headers.get("content-type"), img.get("alt", ""))
+
+
 class Post:
     def __init__(self, text, media):
         self.text = text
@@ -41,8 +54,7 @@ class Post:
 
         media = []
         for img in nodes.find_all("img"):
-            resp = get(img["src"])
-            media.append(resp.content)
+            media.append(Media.from_img_tag(img))
             img.decompose()
 
         return cls(nodes.text, media=tuple(media))

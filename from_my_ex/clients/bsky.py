@@ -25,14 +25,6 @@ class BlueskyError(Exception):
         super().__init__(msg, *args, **kwargs)
 
 
-class InvalidBlueskyCredentialsError(BlueskyError):
-    pass
-
-
-class BlueskyPostError(BlueskyError):
-    pass
-
-
 class Bluesky:
     def __init__(self):
         if "bsky" not in settings.CLIENTS_AVAILABLE:
@@ -51,13 +43,28 @@ class Bluesky:
         )
 
         if resp.status_code == 401:
-            raise InvalidBlueskyCredentialsError(resp)
+            raise BlueskyError(resp)
 
         resp.raise_for_status()
         data = resp.json()
         self.token, self.did = data["accessJwt"], data["did"]
 
-    def data(self, text):
+    def xrpc(self, resource, **kwargs):
+        headers = kwargs.pop("headers", {})
+        headers["Authorization"] = f"Bearer {self.token}"
+        return post(f"{settings.BSKY_AGENT}/xrpc/{resource}", headers=headers, **kwargs)
+
+    def upload(self, media):
+        resp = self.xrpc(
+            "com.atproto.repo.uploadBlob",
+            headers={"Content-type": media.mime},
+            data=media.content,
+        )
+        if resp.status_code != 200:
+            BlueskyError(resp)
+        return {"alt": media.alt, "image": resp.json()["blob"]}
+
+    def data(self, text, media):
         data = {
             "repo": self.did,
             "collection": "app.bsky.feed.post",
@@ -89,16 +96,17 @@ class Bluesky:
                 )
                 start = end
 
+        if media:
+            embed = [self.upload(media) for media in media]
+            data["record"]["embed"] = {
+                "$type": "app.bsky.embed.images",
+                "images": embed,
+            }
+
         return data
 
     def post(self, text, media=None):
-        if media:
-            raise NotImplementedError("Uploading media not implemented yet.")
-
-        resp = post(
-            f"{settings.BSKY_AGENT}/xrpc/com.atproto.repo.createRecord",
-            headers={"Authorization": f"Bearer {self.token}"},
-            json=self.data(text),
-        )
+        data = self.data(text, media)
+        resp = self.xrpc("com.atproto.repo.createRecord", json=data)
         if resp.status_code != 200:
-            raise BlueskyPostError(resp)
+            raise BlueskyError(resp)
