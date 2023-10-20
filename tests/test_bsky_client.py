@@ -68,3 +68,22 @@ def test_bsky_client_post_raises_error_from_server():
         mock.return_value.json.return_value = {"error": "SomeError", "message": "Oops"}
         with raises(BlueskyPostError):
             bsky.post("Hello")
+
+
+def test_bsky_client_post_data_includes_urls_in_facets():
+    with patch("from_my_ex.clients.bsky.post"):
+        bsky = Bluesky()
+
+    text = "✨ example mentioning @atproto.com to share the URL 👨‍❤️‍👨 https://en.wikipedia.org/wiki/CBOR."
+    data = bsky.data(text)
+    assert data["record"]["facets"] == [
+        {
+            "index": {"byteStart": 74, "byteEnd": 108},
+            "features": [
+                {
+                    "$type": "app.bsky.richtext.facet#link",
+                    "uri": "https://en.wikipedia.org/wiki/CBOR",
+                }
+            ],
+        }
+    ]

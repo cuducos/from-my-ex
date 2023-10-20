@@ -1,8 +1,13 @@
 from datetime import datetime
+from re import compile
 
 from httpx import post
 
 from from_my_ex import settings
+
+URL = compile(
+    r"(http(s?):\/\/([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:\/~+#-]*[\w@?^=%&\/~+#-]))"
+)
 
 
 class BlueskyCredentialsNotFoundError(Exception):
@@ -52,10 +57,7 @@ class Bluesky:
         data = resp.json()
         self.token, self.did = data["accessJwt"], data["did"]
 
-    def post(self, text, media=None):
-        if media:
-            raise NotImplementedError("Uploading media not implemented yet.")
-
+    def data(self, text):
         data = {
             "repo": self.did,
             "collection": "app.bsky.feed.post",
@@ -65,10 +67,38 @@ class Bluesky:
                 "createdAt": datetime.utcnow().isoformat(),
             },
         }
+
+        if matches := URL.findall(text):
+            data["record"]["facets"] = []
+            start = 0
+            source = text.encode()
+            for url, *_ in matches:
+                target = url.encode()
+                start = source.find(target, start)
+                end = start + len(target)
+                data["record"]["facets"].append(
+                    {
+                        "index": {"byteStart": start, "byteEnd": end},
+                        "features": [
+                            {
+                                "$type": "app.bsky.richtext.facet#link",
+                                "uri": url,
+                            }
+                        ],
+                    }
+                )
+                start = end
+
+        return data
+
+    def post(self, text, media=None):
+        if media:
+            raise NotImplementedError("Uploading media not implemented yet.")
+
         resp = post(
             f"{settings.BSKY_AGENT}/xrpc/com.atproto.repo.createRecord",
             headers={"Authorization": f"Bearer {self.token}"},
-            json=data,
+            json=self.data(text),
         )
         if resp.status_code != 200:
             raise BlueskyPostError(resp)
