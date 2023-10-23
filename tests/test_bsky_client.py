@@ -1,3 +1,4 @@
+from datetime import datetime
 from unittest.mock import patch
 
 from pytest import raises
@@ -8,7 +9,11 @@ from from_my_ex.clients.bsky import (
     BlueskyCredentialsNotFoundError,
     BlueskyError,
 )
-from from_my_ex.posts import Media
+from from_my_ex.posts import Media, Post
+
+
+def create_post(text):
+    return Post(text, datetime.utcnow(), None)
 
 
 def test_bsky_client_raises_error_when_not_set():
@@ -54,20 +59,22 @@ def test_bsky_client_post():
 
     bsky.token = "fourty-two"
     bsky.did = "42"
+    post = Post("Hello", datetime.utcnow(), None)
     with patch("from_my_ex.clients.bsky.post") as mock:
         mock.return_value.status_code = 200
-        assert bsky.post("Hello") is None
+        assert bsky.post(post) is None
 
 
 def test_bsky_client_post_raises_error_from_server():
     with patch("from_my_ex.clients.bsky.post"):
         bsky = Bluesky()
 
+    post = Post("Hello", datetime.utcnow(), None)
     with patch("from_my_ex.clients.bsky.post") as mock:
         mock.return_value.status_code = 501
         mock.return_value.json.return_value = {"error": "SomeError", "message": "Oops"}
         with raises(BlueskyError):
-            bsky.post("Hello")
+            bsky.post(post)
 
 
 def test_bsky_client_post_data_includes_urls_in_facets():

@@ -12,6 +12,7 @@ beautifulsoup4 = "^4.12.2"
 feedparser = "^6.0.10"
 httpx = "^0.25.0"
 peewee = "^3.17.0"
+pytz = "^2023.3.post1"
 
 
 [tool.poetry.group.dev.dependencies]

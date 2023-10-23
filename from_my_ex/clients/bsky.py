@@ -105,8 +105,8 @@ class Bluesky:
 
         return data
 
-    def post(self, text, media=None):
-        data = self.data(text, media)
+    def post(self, post):
+        data = self.data(post.text, post.media)
         resp = self.xrpc("com.atproto.repo.createRecord", json=data)
         if resp.status_code != 200:
             raise BlueskyError(resp)
