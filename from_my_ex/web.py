@@ -1,10 +1,17 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 
 from from_my_ex import repost
+from from_my_ex.clients.bsky import BlueskyError
+from from_my_ex.clients.mastodon import MastodonError
 
 app = FastAPI()
 
 
 @app.get("/")
 def home():
-    repost()
+    try:
+        repost()
+    except (BlueskyError, MastodonError) as err:
+        raise HTTPException(status_code=500, detail=err.message)
+
+    return {"status": "ok"}

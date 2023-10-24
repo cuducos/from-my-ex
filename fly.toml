@@ -1,0 +1,6 @@
+[processes]
+  web = "poetry run uvicorn from_my_ex.web:app --port $PORT --host 0.0.0.0"
+  cron = "supercronic crontab"
+
+[[services]]
+  processes = ["web"]

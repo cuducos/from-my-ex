@@ -1,0 +1,1 @@
+*/10 * * * * poetry run python -m from_my_ex
