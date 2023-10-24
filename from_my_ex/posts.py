@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from datetime import datetime
 from re import compile
 from urllib.parse import urlparse
 
@@ -7,6 +8,7 @@ from httpx import get
 
 from from_my_ex.settings import NITTER_DOMAIN
 
+DATE_FORMAT = "%a, %d %b %Y %H:%M:%S %Z"
 ACCOUNT_HANDLER = compile(r"^@[A-Za-z0-9_]{4,15}$")
 
 
@@ -35,8 +37,9 @@ class Media:
 
 
 class Post:
-    def __init__(self, text, media):
+    def __init__(self, text, utc, media):
         self.text = text
+        self.utc = utc
         self.media = media
 
     @classmethod
@@ -57,7 +60,8 @@ class Post:
             media.append(Media.from_img_tag(img))
             img.decompose()
 
-        return cls(nodes.text, media=tuple(media))
+        published = datetime.strptime(entry["published"], DATE_FORMAT)
+        return cls(nodes.text, published, media=tuple(media))
 
     def is_repost(self):
         return self.text.startswith("RT by @")

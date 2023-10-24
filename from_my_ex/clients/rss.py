@@ -10,7 +10,7 @@ class RSS:
 
     @property
     def posts(self):
-        for entry in self.feed["entries"]:
+        for entry in reversed(self.feed["entries"]):
             post = Post.from_rss_entry(entry)
             if not post.is_repost() and not post.is_reply():
                 yield post

@@ -1,16 +1,22 @@
+from datetime import datetime, timedelta
 from unittest.mock import patch
 
+from pytz import utc
+
 from from_my_ex.clients.rss import RSS
+from from_my_ex.posts import DATE_FORMAT
 from from_my_ex.settings import NITTER_FEED_URL
 
 
-def create_post(is_reply=False, is_repost=False):
+def create_post(is_reply=False, is_repost=False, published=None):
+    published = published or datetime.utcnow().replace(tzinfo=utc)
     summary = "I am a post"
     if is_repost:
         summary = f"RT by @whoever: {summary}"
     if is_reply:
         summary = f"R to @whoever: {summary}"
-    return {"summary": summary}
+
+    return {"summary": summary, "published": published.strftime(DATE_FORMAT)}
 
 
 def create_feed(*posts):
@@ -46,3 +52,14 @@ def test_rss_client_skips_reposts():
         posts = tuple(rss.posts)
         assert 1 == len(posts)
         assert "repost" not in (post.text for post in posts)
+
+
+def test_rss_client_feed_puts_older_posts_first():
+    with patch("from_my_ex.clients.rss.parse") as mock:
+        yesterday = datetime.utcnow().replace(tzinfo=utc) - timedelta(days=1)
+        old_post = create_post(published=yesterday)
+        new_post = create_post()
+        mock.return_value = create_feed(new_post, old_post)
+        rss = RSS()
+        first, second = rss.posts
+        assert first.utc < second.utc

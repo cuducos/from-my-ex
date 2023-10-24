@@ -45,8 +45,13 @@ $ poetry run python -m from_my_ex --create-db
 $ poetry run python -m from_my_ex
 ```
 
-At this time, this will list new posts formatted as they would be reposted in new social medias.
-The output skips images (but they are downloaded and they bytes cached in memory, ready to be reposted).
+At this time, this will post the oldest content from the RSS of the account.
+
+Optionally, use `--limit NUMBER` to repost more content at once, e.g. `python -m from_my_ex --limit 42`
+
+### Scheduling
+
+Run this command every 10 min (quicker than that will just hit the RSS cache).
 
 ## Contributing
 
