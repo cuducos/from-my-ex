@@ -42,9 +42,9 @@ Not setting `FROM_MY_EX_BSKY_EMAIL` **or** `FROM_MY_EX_BSKY_PASSWORD` disables B
 | Name | Description | Example | Default value |
 |---|---|---|---|
 | `FROM_MY_EX_MASTODON_INSTANCE` | Mastodon instance | `"https://tech.lgbt"` | `"https://mastodon.social"` |
-| `FROM_MY_EX_MASTODON_ACCESS_TOKEN` | Mastodon access token | Go to your _Settings_, _Development_ and then create an app to get the access token. Select the `write:statuses` and `write:media` scopes. | `None` |
+| `FROM_MY_EX_MASTODON_TOKEN` | Mastodon access token | Go to your _Settings_, _Development_ and then create an app to get the access token. Select the `write:statuses` and `write:media` scopes. | `None` |
 
-Not setting `FROM_MY_EX_MASTODON_ACCESS_TOKEN` disables Mastodon reposting.
+Not setting `FROM_MY_EX_MASTODON_TOKEN` disables Mastodon reposting.
 
 ## Usage
 

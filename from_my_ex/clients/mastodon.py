@@ -23,9 +23,9 @@ class Mastodon:
     def __init__(self):
         if "mastodon" not in settings.CLIENTS_AVAILABLE:
             raise MastodonCredentialsNotFoundError(
-                "FROM_MY_EX_MASTODON_ACCESS_TOKEN environment variables not set"
+                "FROM_MY_EX_MASTODON_TOKEN environment variables not set"
             )
-        self.headers = {"Authorization": f"Bearer {settings.MASTODON_ACCESS_TOKEN}"}
+        self.headers = {"Authorization": f"Bearer {settings.MASTODON_TOKEN}"}
 
     def req(self, path, **kwargs):
         return post(

@@ -22,13 +22,13 @@ BSKY_EMAIL = getenv("FROM_MY_EX_BSKY_EMAIL")
 BSKY_PASSWORD = getenv("FROM_MY_EX_BSKY_PASSWORD")
 
 MASTODON_INSTANCE = getenv("FROM_MY_EX_MASTODON_INSTANCE", "https://mastodon.social")
-MASTODON_ACCESS_TOKEN = getenv("FROM_MY_EX_MASTODON_ACCESS_TOKEN")
+MASTODON_TOKEN = getenv("FROM_MY_EX_MASTODON_TOKEN")
 
 CLIENTS_AVAILABLE = set(
     key
     for key, value in (
         ("bsky", BSKY_EMAIL and BSKY_PASSWORD),
-        ("mastodon", MASTODON_ACCESS_TOKEN),
+        ("mastodon", MASTODON_TOKEN),
     )
     if value
 )
