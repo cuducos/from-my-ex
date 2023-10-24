@@ -62,6 +62,16 @@ Optionally, use `--limit NUMBER` to repost more content at once, e.g. `python -m
 
 Run this command every 10 min (quicker than that will just hit the RSS cache).
 
+### Web
+
+There's a web server that runs the repost routine for each HTTP request it receives:
+
+```console
+$ poetry run uvicorn from_my_ex.web:app
+```
+
+`--port $PORT` is optional.
+
 ## Contributing
 
 The tests include [Black](https://black.readthedocs.io/en/stable/), [Ruff](https://docs.astral.sh/ruff/) and [`isort`](https://pycqa.github.io/isort/):
