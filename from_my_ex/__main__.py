@@ -41,7 +41,7 @@ def run():
     try:
         repost()
     except (BlueskyError, MastodonError) as err:
-        log.error(err.message)
+        log.error(str(err))
 
 
 if __name__ == "__main__":

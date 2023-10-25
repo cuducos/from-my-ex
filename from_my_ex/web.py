@@ -7,11 +7,9 @@ from from_my_ex.clients.mastodon import MastodonError
 app = FastAPI()
 
 
-@app.get("/")
+@app.get("/", status_code=204)
 def home():
     try:
         repost()
     except (BlueskyError, MastodonError) as err:
-        raise HTTPException(status_code=500, detail=err.message)
-
-    return {"status": "ok"}
+        raise HTTPException(status_code=500, detail=str(err))
