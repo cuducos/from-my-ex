@@ -1,8 +1,7 @@
 from fastapi import FastAPI, HTTPException
 
 from from_my_ex import repost
-from from_my_ex.clients.bsky import BlueskyError
-from from_my_ex.clients.mastodon import MastodonError
+from from_my_ex.clients.errors import ClientError
 
 app = FastAPI()
 
@@ -11,5 +10,5 @@ app = FastAPI()
 def home():
     try:
         repost()
-    except (BlueskyError, MastodonError) as err:
+    except ClientError as err:
         raise HTTPException(status_code=500, detail=str(err))

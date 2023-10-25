@@ -3,13 +3,14 @@ from io import BytesIO
 from httpx import post
 
 from from_my_ex import settings
+from from_my_ex.clients.errors import ClientError
 
 
 class MastodonCredentialsNotFoundError(Exception):
     pass
 
 
-class MastodonError(Exception):
+class MastodonError(ClientError):
     def __init__(self, response, *args, **kwargs):
         data = response.json()
         msg = (

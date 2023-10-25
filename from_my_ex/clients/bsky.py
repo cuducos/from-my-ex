@@ -4,6 +4,7 @@ from re import compile
 from httpx import post
 
 from from_my_ex import settings
+from from_my_ex.clients.errors import ClientError
 
 URL = compile(
     r"(http(s?):\/\/([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:\/~+#-]*[\w@?^=%&\/~+#-]))"
@@ -14,7 +15,7 @@ class BlueskyCredentialsNotFoundError(Exception):
     pass
 
 
-class BlueskyError(Exception):
+class BlueskyError(ClientError):
     def __init__(self, response, *args, **kwargs):
         data = response.json()
         msg = (

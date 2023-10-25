@@ -2,8 +2,7 @@ from logging import ERROR, INFO, Formatter, StreamHandler, getLogger
 from sys import argv, stderr, stdout
 
 from from_my_ex import repost
-from from_my_ex.clients.bsky import BlueskyError
-from from_my_ex.clients.mastodon import MastodonError
+from from_my_ex.clients.errors import ClientError
 from from_my_ex.db import LastRepost, db
 
 
@@ -40,7 +39,7 @@ def run():
     log = logger()
     try:
         repost()
-    except (BlueskyError, MastodonError) as err:
+    except ClientError as err:
         log.error(str(err))
 
 
