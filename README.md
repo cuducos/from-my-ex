@@ -1,12 +1,10 @@
 # From my ex
 
-💕 _Sending all the love from my ex to my new happy and promisucous social media life._ 💕
+💕 _Sending all the love from my ex to my new happy and promiscuous social media life._ 💕
 
-In other words, this app gets the new posts (except replies and reposts) from my ex-social media and post to the new ones.
+In other words, this app gets the new posts (except replies and reposts) from my ex-social media and posts to the new ones.
 
-## Roadmap
-
-See [the roadmap issues](https://github.com/cuducos/from-my-ex/labels/roadmap) to follow up the MVP development.
+<small>If you just wanna post stuff, take a look in [`cuducos/not-my-ex`](https://github.com/cuducos/not-my-ex).</small>
 
 ## Getting started
 
@@ -60,7 +58,7 @@ Optionally, use `--limit NUMBER` to repost more content at once, e.g. `python -m
 
 ### Scheduling
 
-Run this command every 10 min (quicker than that will just hit the RSS cache).
+Run this command every 10 min (quicker than that, it will just hit the RSS cache).
 
 ### Web
 
